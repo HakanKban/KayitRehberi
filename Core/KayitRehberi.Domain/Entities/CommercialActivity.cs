@@ -11,7 +11,7 @@ namespace KayitRehberi.Domain.Entities
     {
 
         public string ServiceName { get; set; }
-        public long  ServiceCharge { get; set; }
+        public float  ServiceCharge { get; set; }
         public DateTime ServiceDate { get; set; }
 
         // One to Many İlişkisinin kurulması için gerekli Navigation Property

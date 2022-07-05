@@ -30,6 +30,9 @@ namespace KayitRehberi.Persistence.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<int>("CustomerId")
                         .HasColumnType("integer");
 
@@ -41,6 +44,9 @@ namespace KayitRehberi.Persistence.Migrations
 
                     b.Property<string>("ServiceName")
                         .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
@@ -60,6 +66,9 @@ namespace KayitRehberi.Persistence.Migrations
                     b.Property<string>("City")
                         .HasColumnType("text");
 
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Email")
                         .HasColumnType("text");
 
@@ -74,6 +83,9 @@ namespace KayitRehberi.Persistence.Migrations
 
                     b.Property<string>("SurName")
                         .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 

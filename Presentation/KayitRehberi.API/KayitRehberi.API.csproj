@@ -15,10 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\Core\KayitRehberi.Application\KayitRehberi.Application.csproj" />
     <ProjectReference Include="..\..\Infrastructure\KayitRehberi.Infrastructure\KayitRehberi.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Infrastructure\KayitRehberi.Persistence\KayitRehberi.Persistence.csproj" />
