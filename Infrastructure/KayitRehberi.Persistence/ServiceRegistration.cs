@@ -1,4 +1,5 @@
 ﻿using KayitRehberi.Application.Repositories;
+using KayitRehberi.Domain.Entities.Identity;
 using KayitRehberi.Persistence.Configurations;
 using KayitRehberi.Persistence.Context;
 using KayitRehberi.Persistence.Repositories.CommercialActivityRepository;
@@ -22,6 +23,18 @@ namespace KayitRehberi.Persistence
         public static void AddPersistenceServices(this IServiceCollection services)
         {
             services.AddDbContext<KayiRehberiDbContext>(options => options.UseNpgsql(Configuration.ConnectionString));
+            services.AddIdentity<AppUser, AppRole>(opt=>
+            {
+                //teset aşaması için belirli şartlar kapatıldı şifreleme işlemi için.
+                opt.Password.RequiredLength = 3;
+                opt.Password.RequireNonAlphanumeric = false;
+                opt.Password.RequireDigit = false;
+                opt.Password.RequireLowercase = false;
+                opt.Password.RequireUppercase = false;
+
+            }).AddEntityFrameworkStores<KayiRehberiDbContext>();
+
+
             services.AddScoped<ICustomerReadRepository, CustomerReadRepository>();
             services.AddScoped<ICustomerWriteRepository, CustomerWriteRepository>();
             services.AddScoped<ICommercialActivityReadRepository, CommercialActivityReadRepository>();

@@ -1,5 +1,7 @@
 ﻿using KayitRehberi.Domain.Entities;
 using KayitRehberi.Domain.Entities.Common;
+using KayitRehberi.Domain.Entities.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace KayitRehberi.Persistence.Context
 {
-    public class KayiRehberiDbContext : DbContext
+    public class KayiRehberiDbContext : IdentityDbContext<AppUser,AppRole,string>
     {
         public KayiRehberiDbContext(DbContextOptions options) : base(options)
         {
