@@ -1,4 +1,10 @@
-﻿using KayitRehberi.Application.Repositories;
+﻿using KayitRehberi.Application.Features.Commands.Customer.CreateCustomer;
+using KayitRehberi.Application.Features.Commands.Customer.RemoveCustomer;
+using KayitRehberi.Application.Features.Commands.Customer.UpdateCustomer;
+using KayitRehberi.Application.Features.Queries.Customer.GetAllCustomer;
+using KayitRehberi.Application.Features.Queries.Customer.GetByIdCustomer;
+using KayitRehberi.Application.Repositories;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,36 +14,39 @@ namespace KayitRehberi.API.Controllers
     [ApiController]
     public class CustomersController : ControllerBase
     {
-        private readonly ICustomerWriteRepository _customerWriteRepository;
-        private readonly ICommercialActivityWriteRepository _commercialActivityWriteRepository;
+        private readonly IMediator _mediator;
 
-        public CustomersController(ICustomerWriteRepository customerWriteRepository, ICommercialActivityWriteRepository commercialActivityWriteRepository)
+        public CustomersController(IMediator mediator)
         {
-            _customerWriteRepository = customerWriteRepository;
-            _commercialActivityWriteRepository = commercialActivityWriteRepository;
+            _mediator = mediator;
         }
         [HttpGet]
-        public async Task Get()
+        public async Task<IActionResult> GetAllCustomer([FromRoute] GetAllCustomerQueryRequest getAllCustomerQueryRequest)
         {
-            await _customerWriteRepository.AddAsync(new()
-            {
-                Id = 1,
-                Name = "Hakan",
-                SurName = "Kaban",
-                City = "İstanbul",
-                PhoneNumber = "sss",
-                Photo = "sss",
-                Email = "h@"
-
-            });
-            await _commercialActivityWriteRepository.AddAsync(new()
-            {
-                ServiceCharge = 33,
-                ServiceName = "İş",
-                CustomerId = 1,
-
-            });
-            await _commercialActivityWriteRepository.SaveAsync();
+            return Ok(await _mediator.Send(getAllCustomerQueryRequest));
         }
+
+        [HttpPost]
+        public async Task<IActionResult> AddCustomer(CreateCustomerCommandRequest createCustomerCommandRequest)
+        {
+            return Ok(await _mediator.Send(createCustomerCommandRequest));
+        }
+        [HttpGet("{Id}")]
+        public async Task<IActionResult> Get([FromRoute] GetByIdCustomerQueryRequest getByIdCustomerQueryRequest)
+        {
+            return Ok(await _mediator.Send(getByIdCustomerQueryRequest));
+        }
+        [HttpPut]
+        public async Task<IActionResult> Put([FromBody] UpdateCustomerCommandRequest updateCustomerCommandRequest)
+        {
+            return Ok(await _mediator.Send(updateCustomerCommandRequest));
+        }
+        [HttpDelete("{Id}")]
+        public async Task<IActionResult> Delete([FromRoute] RemoveCustomerCommandRequest removeCustomerCommandRequest)
+        {
+            return Ok(await _mediator.Send(removeCustomerCommandRequest));  
+        }
+
+
     }
 }
