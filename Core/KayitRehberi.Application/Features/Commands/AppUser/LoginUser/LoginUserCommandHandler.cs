@@ -1,4 +1,6 @@
-﻿using KayitRehberi.Application.Exceptions;
+﻿using KayitRehberi.Application.Abstractions.Token;
+using KayitRehberi.Application.DTOs;
+using KayitRehberi.Application.Exceptions;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -12,11 +14,13 @@ namespace KayitRehberi.Application.Features.Commands.AppUser.LoginUser
 {
     public class LoginUserCommandHandler : IRequestHandler<LoginUserCommandRequest, LoginUserCommandResponse>
     {
+        readonly ITokenHandler _tokenHandler;
         readonly UserManager<U.AppUser> _userManager;
         readonly SignInManager<U.AppUser> _signInManager;
 
-        public LoginUserCommandHandler(UserManager<U.AppUser> userManager, SignInManager<U.AppUser> signInManager)
+        public LoginUserCommandHandler(ITokenHandler tokenHandler, UserManager<U.AppUser> userManager, SignInManager<U.AppUser> signInManager)
         {
+            _tokenHandler = tokenHandler;
             _userManager = userManager;
             _signInManager = signInManager;
         }
@@ -24,19 +28,28 @@ namespace KayitRehberi.Application.Features.Commands.AppUser.LoginUser
         public async Task<LoginUserCommandResponse> Handle(LoginUserCommandRequest request, CancellationToken cancellationToken)
         {
             //kullanıcıdan e-mail ya da kullanıcı adı alarak kontrol yapıyoruz.
-          U.AppUser user = await _userManager.FindByNameAsync(request.UserNameOrEmail);
+            U.AppUser user = await _userManager.FindByNameAsync(request.UserNameOrEmail);
             if (user == null)
                 user = await _userManager.FindByEmailAsync(request.UserNameOrEmail);
 
             if (user == null)
-                throw new NotFoundException("Kullanıcı adı ve ya şifre hatalı..");
+                throw new NotFoundException();
 
-          SignInResult result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
+            SignInResult result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
             if (result.Succeeded) //Authentication başarılı
             {
-                //...Yetkiler belirlenmeli
+                Token token = _tokenHandler.CreateAccessToken(5);
+                return new LoginUserSuccessCommandResponse()
+                {
+                    Token = token,
+                };
+
             }
-            return new LoginUserCommandResponse();
+            //return new LoginUserErrorCommandResponse()
+            //{
+            //    Message = "Kullanıcı adı ve ya şifre hatalı"
+            //};
+            throw new AuthenticationErrorException();
         }
     }
 }

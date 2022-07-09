@@ -5,6 +5,7 @@ using KayitRehberi.Application.Features.Queries.Customer.GetAllCustomer;
 using KayitRehberi.Application.Features.Queries.Customer.GetByIdCustomer;
 using KayitRehberi.Application.Repositories;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,6 +13,7 @@ namespace KayitRehberi.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes ="Admin")]
     public class CustomersController : ControllerBase
     {
         private readonly IMediator _mediator;
