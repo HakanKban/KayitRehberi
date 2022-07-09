@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace KayitRehberi.Persistence.Migrations
 {
     [DbContext(typeof(KayiRehberiDbContext))]
-    [Migration("20220708111805_mig_3")]
-    partial class mig_3
+    [Migration("20220709172620_mig_1")]
+    partial class mig_1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

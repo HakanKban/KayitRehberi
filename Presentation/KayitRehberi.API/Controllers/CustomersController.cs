@@ -13,7 +13,7 @@ namespace KayitRehberi.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(AuthenticationSchemes ="Admin")]
+    [Authorize(Roles ="admin,editor")]
     public class CustomersController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -43,6 +43,9 @@ namespace KayitRehberi.API.Controllers
         {
             return Ok(await _mediator.Send(updateCustomerCommandRequest));
         }
+
+        [Authorize(Roles = "admin")]
+
         [HttpDelete("{Id}")]
         public async Task<IActionResult> Delete([FromRoute] RemoveCustomerCommandRequest removeCustomerCommandRequest)
         {
