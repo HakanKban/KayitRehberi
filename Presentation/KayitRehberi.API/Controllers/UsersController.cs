@@ -24,7 +24,7 @@ namespace KayitRehberi.API.Controllers
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> Login(LoginUserCommandRequest loginUserCommandRequest)
+        public async Task<IActionResult> Login([FromQuery] LoginUserCommandRequest loginUserCommandRequest)
         {
 
             return Ok(await _mediator.Send(loginUserCommandRequest));

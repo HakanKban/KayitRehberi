@@ -17,22 +17,25 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-       .AddJwtBearer("Admin",options=>
-       {
-           options.TokenValidationParameters = new()
-           {
-               ValidateAudience = true, //oluþturulan token deðerini kimlerin kullanacaðýný belirlediðimiz deðer
-               ValidateIssuer = true, // oluþturulacak token deðerini kimin daðýttýðýný ifade edeceðimiz alan
-               ValidateLifetime = true, // oluþturulan token deðerinin süresini kontrol edecek olan doðrulama
-               ValidateIssuerSigningKey = true, //Üretilecek token deðerinin uygulamamýza ait bir deðer olduðunu ifade deden security key verisinin doðrulanmasýdýr.
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, opts =>
+            {
+                opts.TokenValidationParameters = new()
+                {
+                    ValidateAudience = true, //oluþturulan token deðerini kimlerin kullanacaðýný belirlediðimiz deðer
+                    ValidateIssuer = true, // oluþturulacak token deðerini kimin daðýttýðýný ifade edeceðimiz alan
+                    ValidateLifetime = true, // oluþturulan token deðerinin süresini kontrol edecek olan doðrulama
+                    ValidateIssuerSigningKey = true, //Üretilecek token deðerinin uygulamamýza ait bir deðer olduðunu ifade deden security key verisinin doðrulanmasýdýr.
 
-               ValidAudience = builder.Configuration["Token:Audience"],
-               ValidIssuer = builder.Configuration["Token:Issuer"],
-               IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Token:SecurityKey"]))
+                    ValidAudience = builder.Configuration["Token:Audience"],
+                    ValidIssuer = builder.Configuration["Token:Issuer"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Token:SecurityKey"]))
 
-           };
-       });
+                };
+            });
 
 var app = builder.Build();
 

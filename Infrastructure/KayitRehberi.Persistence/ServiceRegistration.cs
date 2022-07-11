@@ -4,6 +4,7 @@ using KayitRehberi.Persistence.Configurations;
 using KayitRehberi.Persistence.Context;
 using KayitRehberi.Persistence.Repositories.CommercialActivityRepository;
 using KayitRehberi.Persistence.Repositories.CustomerRepository;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -32,7 +33,7 @@ namespace KayitRehberi.Persistence
                 opt.Password.RequireLowercase = false;
                 opt.Password.RequireUppercase = false;
 
-            }).AddEntityFrameworkStores<KayiRehberiDbContext>();
+            }).AddEntityFrameworkStores<KayiRehberiDbContext>().AddDefaultTokenProviders();
 
 
             services.AddScoped<ICustomerReadRepository, CustomerReadRepository>();
