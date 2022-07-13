@@ -1,6 +1,7 @@
 ﻿using KayitRehberi.Application.Abstractions.Token;
 using KayitRehberi.Infrastructure.Services.Token;
 using Microsoft.Extensions.DependencyInjection;
+using RabbitMQ.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;

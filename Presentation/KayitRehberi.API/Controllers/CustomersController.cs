@@ -13,7 +13,7 @@ namespace KayitRehberi.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles ="admin,editor")]
+    //[Authorize(Roles ="admin,editor")]
     public class CustomersController : ControllerBase
     {
         private readonly IMediator _mediator;
