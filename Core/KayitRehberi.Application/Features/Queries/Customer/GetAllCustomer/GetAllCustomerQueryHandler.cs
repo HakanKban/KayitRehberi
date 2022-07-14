@@ -25,6 +25,7 @@ namespace KayitRehberi.Application.Features.Queries.Customer.GetAllCustomer
 
             var customers = _customerReadRepository.GetAll(false).Select(p => new
             {
+            
                 p.Id,
                 p.Name,
                 p.SurName,
